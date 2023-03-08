@@ -70,7 +70,7 @@ public class TransactionDao {
         return false;
     }
 
-    public Optional<List> getTransations(String type) {
+    public List<Transation> getTransations(String type) {
         List<Transation> transations = new ArrayList<>();
         final String sql = "Select * from transaction where type = ?";
         try {
@@ -85,11 +85,11 @@ public class TransactionDao {
                 String resDate = resultSet.getString("date");
                 transations.add(new Transation(resId, resType, resDesc, resAmount, resDate));
             }
-            return Optional.of(transations);
+            return transations;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return transations;
     }
 
 }

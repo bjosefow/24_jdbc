@@ -8,12 +8,12 @@ public class TransactionApp {
 
     private static final TransactionDao DAO = new TransactionDao();
     private static final Scanner scanner = new Scanner(System.in);
-    static final String END = "0";
-    static final String ADD_TRANSACTION = "1";
-    static final String UPDATE_TRANSACTION = "2";
-    static final String DELETE_TRANSACTION = "3";
-    static final String PRINT_EXPENSES = "4";
-    static final String PRINT_REVENUE = "5";
+    private static final String END = "0";
+    private static final String ADD_TRANSACTION = "1";
+    private static final String UPDATE_TRANSACTION = "2";
+    private static final String DELETE_TRANSACTION = "3";
+    private static final String PRINT_EXPENSES = "4";
+    private static final String PRINT_REVENUE = "5";
 
     public static void main(String[] args) {
         String choice = "-1";
@@ -36,25 +36,22 @@ public class TransactionApp {
         }
     }
 
-    private static void makeTransation(String choice) {
-        switch (choice) {
-            case ADD_TRANSACTION -> addTransation();
-            case UPDATE_TRANSACTION -> updateTransation();
-            case DELETE_TRANSACTION -> deleteTransation();
-            case PRINT_EXPENSES -> printExpenses();
-            case PRINT_REVENUE -> printRevenue();
-            default -> System.out.println("Brak takiej opcji");
+    private static void printExpenses() {
+        List<Transation> expenses = DAO.getTransations("expenses");
+        if (!expenses.isEmpty()) {
+            expenses.forEach(System.out::println);
+        } else {
+            System.out.println("Brak Transakcji o typie - wydatek");
         }
     }
 
-    private static void printExpenses() {
-        Optional<List> expenses = DAO.getTransations("expenses");
-        expenses.ifPresentOrElse(l -> l.forEach(System.out::println), () -> System.out.println("Brak Transakcji o typie - wydatek"));
-    }
-
     private static void printRevenue() {
-        Optional<List> expenses = DAO.getTransations("revenue");
-        expenses.ifPresentOrElse(l -> l.forEach(System.out::println), () -> System.out.println("Brak Transakcji o typie - wydatek"));
+        List<Transation> expenses = DAO.getTransations("revenue");
+        if (!expenses.isEmpty()) {
+            expenses.forEach(System.out::println);
+        } else {
+            System.out.println("Brak Transakcji o typie - przychod");
+        }
     }
 
     private static void deleteTransation() {
